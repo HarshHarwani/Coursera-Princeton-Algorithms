@@ -2,18 +2,33 @@ package percolation;
 
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
+/**
+ * 
+ * @author hharwani
+ * @description the percolation problem with backwash solved.
+ * the backwash problem was that some of the bottom sites were incorrectly getting detected as full,
+ * this was happening because of two virtual sites top and bottom, as we were checking if top and virtual
+ * sites are connected or not when they got connected these sites were incorrectly marked as full as they were 
+ * connected with the bottom virtual site. So in order to solve this problem we maintain another union-find
+ * instance and in that instance no virtual bottom site is maintained, only virtual top site is maintained 
+ * and isfull checks if the site is actually connected to top site.
+ *   
+ */
+
 public class Percolation {
 
     private WeightedQuickUnionUF wuf; // weighted quick find object reference
+    private WeightedQuickUnionUF wufFull;
     private boolean[] openSiteGrid; // a boolean array for holding whether a particular site is open or close.
     private int size; // size of the grid
 
     public Percolation(int N) {
-        if (N < 0) {
+        if (N <= 0) {
             throw new java.lang.IllegalArgumentException();
         }
         this.size = N; // size of the grid.
         wuf = new WeightedQuickUnionUF((N * N) + 2); // two extra site for virtual top and bottom site
+        wufFull = new WeightedQuickUnionUF((N * N) + 2);
         openSiteGrid = new boolean[(N * N) + 2]; // create N-by-N grid, with all sites blocked
     }
     /**
@@ -48,6 +63,7 @@ public class Percolation {
      */
     private void connect(int i, int j) {
         wuf.union(i, j);
+        wufFull.union(i, j);
     }
 
     /**
@@ -69,7 +85,7 @@ public class Percolation {
             connect(index, 0);
         }
         if (i == this.size) {
-            connect(index, (this.size * this.size) + 1);
+            wuf.union(index, (this.size * this.size) + 1);
         }
         if (i > 1 && isOpen(i - 1, j)) { // if the left site is open connect it to left site
             connect(index, getIndexOfElementinGrid(i - 1, j));
@@ -112,7 +128,7 @@ public class Percolation {
             throw new java.lang.IndexOutOfBoundsException();
         }
         int index = getIndexOfElementinGrid(i, j);
-        return wuf.connected(index, 0);
+        return wufFull.connected(index, 0);
     }
 
     /**
@@ -122,4 +138,5 @@ public class Percolation {
     public boolean percolates() {
         return wuf.connected((this.size * this.size) + 1, 0);
     }
-}
+
+  }

@@ -31,7 +31,6 @@ public class PercolationStats {
                 openSites++;
             }
         }
-        // TODO Auto-generated method stub
         return (double) openSites / (n * n);
     }
 
