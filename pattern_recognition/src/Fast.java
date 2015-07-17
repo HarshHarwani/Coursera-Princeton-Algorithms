@@ -54,6 +54,7 @@ public class Fast {
                 if(i==N-2 || slope!=slope1){
                     if(segment.size()>3){
                         //stil need to figure how to avoid repetation of segments, need some way to identify sub-segments.
+                        //probably need to check the segment..!!!
                         printSegment(segment);
                     }
                     segment.clear();
