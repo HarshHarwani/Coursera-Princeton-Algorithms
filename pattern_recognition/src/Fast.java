@@ -2,7 +2,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 public class Fast {
-    
+
     public static void main(String args[]){
         // get the filename as the command line argument
         String filename = args[0];
@@ -27,12 +27,12 @@ public class Fast {
             point.draw();
         }
         Arrays.sort(pointsArray);
-        
+
         for(Point p:pointsArray){
             //for every point i will create a clone array of the original array
             Point[] sortedPointArray=pointsArray.clone();
-            // i will sort that array according to the comparator 
-            //the current point p is the origin, we ll sort the array according to the slope of the points with 
+            // i will sort that array according to the comparator
+            //the current point p is the origin, we ll sort the array according to the slope of the points with
             //respoect to the origin
             Arrays.sort(sortedPointArray,p.SLOPE_ORDER);
             LinkedList<Point> segment=new LinkedList<>();
@@ -53,11 +53,12 @@ public class Fast {
                 //in case its not the last iteration we can still check for other points to be added to the list
                 if(i==N-2 || slope!=slope1){
                     if(segment.size()>3){
+                        //stil need to figure how to avoid repetation of segments, need some way to identify sub-segments.
                         printSegment(segment);
                     }
                     segment.clear();
                     segment.add(p);
-                    
+
                 }
             }
         }
