@@ -18,7 +18,6 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 public class Percolation {
 
     private WeightedQuickUnionUF wuf; // weighted quick find object reference
-    private WeightedQuickUnionUF wufFull;
     private boolean[] openSiteGrid; // a boolean array for holding whether a particular site is open or close.
     private int size; // size of the grid
 
@@ -28,7 +27,6 @@ public class Percolation {
         }
         this.size = N; // size of the grid.
         wuf = new WeightedQuickUnionUF((N * N) + 2); // two extra site for virtual top and bottom site
-        wufFull = new WeightedQuickUnionUF((N * N) + 2);
         openSiteGrid = new boolean[(N * N) + 2]; // create N-by-N grid, with all sites blocked
     }
     /**
@@ -63,7 +61,6 @@ public class Percolation {
      */
     private void connect(int i, int j) {
         wuf.union(i, j);
-        wufFull.union(i, j);
     }
 
     /**
@@ -128,7 +125,7 @@ public class Percolation {
             throw new java.lang.IndexOutOfBoundsException();
         }
         int index = getIndexOfElementinGrid(i, j);
-        return wufFull.connected(index, 0);
+        return wuf.connected(index, 0);
     }
 
     /**
